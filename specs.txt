@@ -1,0 +1,217 @@
+Input: T
+
+If T ends in 2,4,6,8, or 0 Print: “T divisible by 2” [stop program]
+
+If all the digits in T add up to 3,6, or 9 Print: “T divisible by 3” [stop program]
+
+{ex: 537 = 5+3+7=15 = 1+5=6 [537 divisible by 3]}
+
+If T ends in a 5 Print: “T divisible by 5” [stop program]
+
+Divide T by 48 to two decimal places of precision
+
+Number to the left of the decimal place is the Offset
+
+The two digit number to the right of the decimal place is the Toolset
+
+There are eight Tools arranged in 24 Toolsets.
+
+TOOLSETS:
+
+(02) Red, Lite Blue
+
+(06) Lite Blue, Yellow
+
+(10) Yellow, Lavender
+
+(14) Lavender, Green
+
+(18) Green, Orange
+
+(22) Orange, Dark Blue
+
+(27) Dark Blue, Lite Blue
+
+(31) Lite Blue, Green
+
+(35) Green, Brown
+
+(39) Brown, Yellow
+
+(43) Yellow, Orange
+
+(47) Orange, Red
+
+(52) Red, Orange
+
+(56) Orange, Yellow
+
+(60) Yellow, Brown
+
+(64) Brown, Green
+
+(68) Green, Lite Blue
+
+(72) Lite Blue, Dark Blue
+
+(77) Dark Blue, Orange
+
+(81) Orange, Green
+
+(85) Green, Lavender
+
+(89) Lavender, Yellow
+
+(93) Yellow, Lite Blue
+
+(97) Lite Blue, Red
+
+TOOLS:
+
+Red:
+
+(A=3)
+
+A=A+6 {winds up looking like.. 3,9,15,21,27,etc}
+
+Lite Blue:
+
+(A=1, B=5, C=5, D=2)
+
+A=A+6
+
+B=B+10
+
+C=C+6
+
+D=D+2 {winds up looking like.. 1,5,5,2,7,15,11,4,13,etc}
+
+Yellow:
+
+(A=2, B=2, C=6, D=4)
+
+A=A+8
+
+B=B+4
+
+C=C+8
+
+D=D+4 {winds up looking like.. 2,2,6,4,10,6,14,8,18,etc}
+
+Lavender:
+
+(A=9, B=6)
+
+A=A+18
+
+B=B+6 {winds up looking like.. 9,6,27,12,45,18,etc}
+
+Green:
+
+(A=1, B=4, C=3, D=8)
+
+A=A+4
+
+B=B+8
+
+C=C+4
+
+D=D+8 {winds up looking like.. 1,4,3,8,5,12,7,16,9,etc}
+
+Orange:
+
+(A=2, B=1, C=4, D=10)
+
+A=A+6
+
+B=B+2
+
+C=C+6
+
+D=D+10 {winds up looking like.. 2,1,4,10,8,3,10,20,14,etc}
+
+Dark Blue:
+
+(A=6)
+
+A=A+6 {winds up looking like.. 6,12,18,24,etc}
+
+Brown:
+
+(A=3, B=18)
+
+A=A+6
+
+B=B+18 {winds up looking like.. 3,18,9,36,15,54,etc}
+
+____________________________________________________
+
+Example:
+
+T=137
+
+T/48= 2.85
+
+Offset= 2
+
+Toolset= (85) Green, Lavender
+
+Up= Green
+
+Down= Lavender
+
+____________________________________________________
+
+While Offset>0
+
+..Offset=Offset-Down
+
+….Down=Tool output
+
+{For example, the Lavender sequence is 9,6,27,12,45,18,etc.. with an Offset of 2 that puts us at [2-9=(-7)] Offset=(-7) immediately so…}
+
+While Offset<0
+
+..Offset=Offset+Up
+
+….Up=Tool Output
+
+{Example, the Green sequence is 1,4,3,8,5,12,7,16,9,etc.. With an Offset of (-7) that puts us at [(-7)+1+4+3=1] Offset=1 .. then back and forth until it’s resolved}
+
+{Note: properly written/coded the Offset will ALWAYS resolve to zero, infinite loops not possible}
+
+Once Offset becomes Zero
+
+Harvest values from Tools via their Rules
+
+Up=Tool Rule Output, Down=Tool Rule Output
+
+Down-Up=F1
+
+Print: “Factor 1=”F1
+
+Down+Up=F2
+
+Print: “Factor 2=”F2
+
+If F2=T Print: “Prime”
+
+TOOL’S RULES
+
+Red=2*A-6
+
+Lite Blue=A+B+C+D-12
+
+Yellow=A+B+C+D-12
+
+Lavender=A+B-12
+
+Green=A+B+C+D-12
+
+Orange=A+B+C+D-12
+
+Dark Blue=2*A-6
+
+Brown=A+B-12
+
+"circle/infinity/diamond"
