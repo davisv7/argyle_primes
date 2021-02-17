@@ -2,8 +2,8 @@ import argparse
 from tools import tools
 from toolsets import toolset
 from itertools import cycle
-# from primes import primes
-
+from primes import primes
+import numpy as np
 
 def make_generator(seed, increments):
     _len = len(increments)
@@ -58,7 +58,7 @@ def argyle_prime(T):
         T_str = truncate(new_T, 2)
         os, ts = T_str.split(".")
         os = int(os)
-        up, down = toolset[ts].split(", ")
+        up, down, delta = toolset[ts].split(",")
         us, ui, ufunc = tools[up]
         ds, di, dfunc = tools[down]
         # print(us, ui)
@@ -67,15 +67,21 @@ def argyle_prime(T):
         down_gen = make_generator(ds, di)
         # down = next(down_gen)
         # up = next(up_gen)
+        os += int(delta)
         while os != 0:
             while os > 0:
                 down = next(down_gen)
+                # print(down)
                 os -= down
+            # print()
             while os < 0:
                 up = next(up_gen)
+                # print(up)
                 os += up
+            # print()
         down = dfunc([next(down_gen) for i in range(len(ds))])
         up = ufunc([next(up_gen) for i in range(len(us))])
+        # print(down, up)
         F1 = down - up
         F2 = down + up
         if F2 == T:

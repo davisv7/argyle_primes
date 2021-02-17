@@ -1,8 +1,10 @@
 def _sum(lst):
+    # print(lst)
     return sum(lst) - 12
 
 
 def _double(lst):
+    # print(lst)
     return 2 * lst[0] - 6
 
 
