@@ -13,10 +13,9 @@ class NumberGenerator:
         self.index = 0
 
     def next_number(self):
-        _len = len(self.increments)
         value = self.seed[self.index] + self.round * self.increments[self.index]
         self.index += 1
-        if self.index == _len:
+        if self.index == self._len:
             self.round += 1
             self.index = 0
         return value
