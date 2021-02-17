@@ -1,20 +1,25 @@
 import argparse
 from tools import tools
 from toolsets import toolset
-from itertools import cycle
 from primes import primes
-import numpy as np
 
-def make_generator(seed, increments):
-    _len = len(increments)
-    round = 0
-    i = 0
-    for digit in cycle(seed):
-        yield digit + round * increments[i]
-        i += 1
-        if i == _len:
-            round += 1
-            i = 0
+
+class NumberGenerator:
+    def __init__(self, seed, increments):
+        self._len = len(increments)
+        self.seed = seed
+        self.increments = increments
+        self.round = 0
+        self.index = 0
+
+    def next_number(self):
+        _len = len(self.increments)
+        value = self.seed[self.index] + self.round * self.increments[self.index]
+        self.index += 1
+        if self.index == _len:
+            self.round += 1
+            self.index = 0
+        return value
 
 
 def truncate(f, n):
@@ -54,34 +59,28 @@ def argyle_prime(T):
         print("Number is divisible by 5")
         return
     else:
-        new_T = T / 48
+        new_T = float(T) / 48
         T_str = truncate(new_T, 2)
         os, ts = T_str.split(".")
         os = int(os)
         up, down, delta = toolset[ts].split(",")
         us, ui, ufunc = tools[up]
         ds, di, dfunc = tools[down]
-        # print(us, ui)
-        # print(ds, di)
-        up_gen = make_generator(us, ui)
-        down_gen = make_generator(ds, di)
-        # down = next(down_gen)
-        # up = next(up_gen)
+
+        up_gen = NumberGenerator(us, ui)
+        down_gen = NumberGenerator(ds, di)
+
         os += int(delta)
         while os != 0:
             while os > 0:
-                down = next(down_gen)
-                # print(down)
+                down = down_gen.next_number()
                 os -= down
-            # print()
             while os < 0:
-                up = next(up_gen)
-                # print(up)
+                up = up_gen.next_number()
                 os += up
-            # print()
-        down = dfunc([next(down_gen) for i in range(len(ds))])
-        up = ufunc([next(up_gen) for i in range(len(us))])
-        # print(down, up)
+
+        down = dfunc([down_gen.next_number() for _ in range(len(ds))])
+        up = ufunc([up_gen.next_number() for _ in range(len(us))])
         F1 = down - up
         F2 = down + up
         if F2 == T:
